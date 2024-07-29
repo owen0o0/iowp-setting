@@ -115,8 +115,15 @@ nav .iset-section-nav {
   margin-right: 10px;
 }
 
+.iset-no-title th {
+  display: none;
+}
 
-.form-table th {
+.iset-no-title td {
+  padding-left: 0!important;
+}
+
+.iset-dashboard .form-table th {
   width: 180px;
 }
 
@@ -589,14 +596,6 @@ h4 {
   width: 100%;
 }
 
-.iset-no-title th {
-  display: none;
-}
-
-.iset-no-title td {
-  padding-left: 0;
-}
-
 
 .iset-section-nav {
   position: relative;
@@ -710,12 +709,20 @@ h4 {
   .iset-dashboard .iset-body{
     padding-right: 0px;
   }
+  .iset-notice {
+    padding: 12px 20px;
+    border-radius: 10px;
+  }
 }
 @media (min-width: 782.97px) {
   .container-flex {
     flex-wrap: nowrap;
     max-width: 1280px;
     margin: 0 auto;
+  }
+
+  .iset-dashboard .form-table td {
+    padding: 15px 0 15px 10px;
   }
 
   .left-column {

@@ -4,7 +4,7 @@
  * @Author URI: https://www.iowen.cn/
  * @Date: 2024-07-20 11:31:42
  * @LastEditors: iowen
- * @LastEditTime: 2024-07-29 15:20:25
+ * @LastEditTime: 2024-07-29 15:47:57
  * @FilePath: /iowp-setting/classes/setting.class.php
  * @Description: 
  */
@@ -887,9 +887,16 @@ class ISET {
         echo '</div>';
         
         if (!empty($sidebar['buts'])) {
+            $defaults = array(
+                'title' => '',
+                'link'  => '',
+                'class' => 'button',
+                'attr'  => ''
+            );
             echo '<div class="card-footer">';
             // 遍历并显示卡片底部的所有按钮
             foreach ($sidebar['buts'] as $but) {
+                $but = wp_parse_args($but, $defaults);
                 echo '<a class="' . $but['class'] . '" href="' . $but['link'] . '" ' . $but['attr'] . '>' . $but['title'] . '</a>';
             }
             echo '</div>';

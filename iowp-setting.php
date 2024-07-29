@@ -3,7 +3,7 @@
  * Plugin Name: IO Setting API
  * Plugin URI:  https://www.iotheme.cn/
  * Description: IO Setting API 使用示例插件
- * Version: 1.0.1
+ * Version: 1.0.2
  * Author: iowen
  * Author URI: https://www.iotheme.cn/
  * License: GPLv3 or later
@@ -12,7 +12,7 @@
  * Domain Path: /languages/
  */
 
-define('ISET_VERSION', '1.0.1');
+defined('ISET_VERSION') or define('ISET_VERSION', '1.0.2');
 
 require_once plugin_dir_path( __FILE__ ) .'classes/setting.class.php';
 
