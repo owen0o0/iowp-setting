@@ -5,7 +5,7 @@
  * @Date: 2024-07-25 13:49:55
  * @LastEditors: iowen
  * @LastEditTime: 2024-07-25 17:04:05
- * @FilePath: /io-setting/fields/switcher.php
+ * @FilePath: /iowp-setting/fields/switcher.php
  * @Description: 
  */
 if (!defined('ABSPATH')) { die; }

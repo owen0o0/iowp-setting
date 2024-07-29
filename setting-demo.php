@@ -4,7 +4,7 @@
 defined( 'ABSPATH' ) or exit;
 
 
-$ISET = new ISET;
+$ISET = new ISET();
 
 
 $options = array(
@@ -22,27 +22,11 @@ $options = array(
 
 $ISET->create_options('iset_demo_config', $options);
 
-$sections = array(
-	array(
-		'id'    => 'demo1',
-		'title' => __('Basal', 'iset_plugin')
-	),
-	array(
-		'id'    => 'demo2',
-		'title' => __('Advanced', 'iset_plugin')
-	),
-	array(
-		'id'    => 'demo3',
-		'title' => __('Dependency', 'iset_plugin')
-	),
-	array(
-		'id'    => 'demo4',
-		'title' => __('Test', 'iset_plugin')
-	)
-);
-
-$fields = array(
-	'demo1' => array(
+$ISET->create_section(array(
+	'id'     => 'basal',
+	'title'  => __('Basal', 'iset_plugin'),
+	'desc'   => __('Basic components', 'iset_plugin'),
+	'fields' => array(
 		array(
 			'id'                => 'text-1',
 			'type'              => 'text',
@@ -123,8 +107,13 @@ $fields = array(
 				'width'         => '600px',
 			)
 		)
-	),
-	'demo2' => array(
+	)
+));
+
+$ISET->create_section(array(
+	'id'     => 'advanced',
+	'title'  => __('Advanced', 'iset_plugin'),
+	'fields' => array(
 		array(
 			'id'      => 'file-1',
 			'type'    => 'file',
@@ -248,8 +237,13 @@ $fields = array(
 			),
 			'default' => array('one', 'four')
 		),
-	),
-	'demo3' => array(
+	)
+));
+
+$ISET->create_section(array(
+	'id'     => 'dependency',
+	'title'  => __('Dependency', 'iset_plugin'),
+	'fields' => array(
 		array(
 			'id'      => 'switcher-2',
 			'type'    => 'switcher',
@@ -310,8 +304,13 @@ $fields = array(
 			),
 			'default' => 'yes'
 		),
-	),
-	'demo4' => array(
+	)
+));
+
+$ISET->create_section(array(
+	'id'     => 'test',
+	'title'  => __('Test', 'iset_plugin'),
+	'fields' => array(
 		array(
 			'id'          => 'select-2',
 			'type'        => 'select',
@@ -403,12 +402,45 @@ $fields = array(
 			)
 		),
 	)
-);
+));
 
 
 
-$ISET->set_sections($sections);
-$ISET->set_fields($fields);
-
-
-
+$ISET->create_sidebars(array(
+	array(
+		'name'    	 => __('简介', 'iset_plugin'),
+		'content' 	 => __('Wordpress Setting API 简化', 'iset_plugin'),
+		'buts'       => array(
+			array(
+				'title' => __('Github', 'iset_plugin'),
+				'link'  => 'https://github.com/owen0o0/iowp-setting',
+				'class' => 'button button-primary',
+				'attr'  => 'target="_blank"'
+			)
+		)
+	),
+	array(
+		'name'       => __('建站套件', 'iset_plugin'),
+		'content'    => '<ul>
+							<li><a href="https://www.iotheme.cn/store/onenav.html" target="_blank">' . __('OneNav 导航主题', 'iset_plugin') . '</a></li>
+							<li><a href="https://www.iotheme.cn/store/swallow.html" target="_blank">' . __('Swallow 单栏博客主题', 'iset_plugin') . '</a></li>
+							<li><a href="https://www.iotheme.cn/store/zerofoam.html" target="_blank">' . __('ZeroFoam 会员、圈子系统，社交利器', 'iset_plugin') . '</a></li>
+							<li><a href="https://www.iotheme.cn/store/io-code-highlight.html" target="_blank">' . __('io Code Highlight 代码高亮插件', 'iset_plugin') . '</a></li>
+						</ul>',
+		'buts'       => array(
+			array(
+				'title' => __('了解更多', 'iset_plugin'),
+				'link'  => 'https://www.iotheme.cn/goods',
+				'class' => 'button button-primary',
+				'attr'  => 'target="_blank"'
+			)
+		)
+	),
+	array(
+		'section_id' => 'test',
+		'name'       => __('测试', 'iset_plugin'),
+		'content'    => '测试字段',
+		'desc'       => '测试字段描述',
+		'buts'       => array()
+	)
+));

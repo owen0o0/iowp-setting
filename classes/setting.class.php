@@ -4,8 +4,8 @@
  * @Author URI: https://www.iowen.cn/
  * @Date: 2024-07-20 11:31:42
  * @LastEditors: iowen
- * @LastEditTime: 2024-07-28 18:30:31
- * @FilePath: /io-setting/classes/setting.class.php
+ * @LastEditTime: 2024-07-29 15:20:25
+ * @FilePath: /iowp-setting/classes/setting.class.php
  * @Description: 
  */
 
@@ -14,7 +14,7 @@ if (!defined('ABSPATH')) { die; }
 if ( ! class_exists( 'ISET' ) ) :
 
 class ISET {
-    protected $version  = '1.0.0';
+    protected $version  = ISET_VERSION;
     /**
      * 设置选项卡数组
      *
@@ -51,7 +51,7 @@ class ISET {
      * 设置前缀
      * @var string
      */
-    protected $prefix = 'iset_option_config';
+    protected $prefix = '';
 
     /**
      * 是否序列化
@@ -91,11 +91,14 @@ class ISET {
     public function __construct() {
         $this->constants();
         $this->includes();
+
+        do_action('iset_init');
+
         $this->textdomain();
 
+        add_action('admin_init', array($this, 'admin_init'));
         add_action('admin_enqueue_scripts', array($this, 'admin_enqueue_scripts'));
         add_action('admin_menu', array($this, 'admin_menu'));
-        add_action('admin_init', array($this, 'admin_init'));
     }
 
     /**
@@ -277,6 +280,7 @@ class ISET {
      * 用于自定义设置页面的各种属性，如页面标题、描述、菜单标题等。
      * 
      * @param string $prefix 设置项的前缀，用于唯一标识设置项。
+     *                       serialize 为 true 时可用，用于保存所有设置项。
      * @param array $args 可选参数数组，用于定制设置页面的显示和行为。
      *                    包括页面标题、描述、菜单位置等。
      */
@@ -299,101 +303,52 @@ class ISET {
 
         $this->serialize = $options['serialize'] ? true : false;
         $this->options   = $options;
-        $this->prefix    = $prefix;
+        $this->prefix    = empty($prefix)? 'iset_option_config' : $prefix;
     }
-
+    
     /**
-     * 设置设置选项卡
-     *
-     * 本函数用于设置配置页面的各个选项卡。选项卡的设置对于组织和分类大量配置选项至关重要，
-     * 它使得用户能够更有序地浏览和修改设置。
-     *
-     * @param array $sections 设置选项卡的数组。每个元素代表一个选项卡，元素值为选项卡的标题或描述。
-     *
-     * @return $this 返回当前对象，支持链式调用。
-     */
-    function set_sections( $sections) {
-        $this->settings_sections = $sections;
-
-        return $this;
-    }
-
-    /**
-     * 添加一个新的设置选项卡到设置框架中。
-     *
-     * 该方法用于向一个设置框架中添加一个新的设置选项卡。通过向 $this->settings_sections
-     * 数组中添加一个新的选项卡配置数组来实现。此方法支持链式调用。
-     *
-     * @param array $section 包含选项卡信息的数组。数组应包含选项卡的唯一标识和其他必要信息。
-     *
-     * @return $this 返回当前实例，支持链式调用。
-     */
-    function add_section( $section ) {
-        $this->settings_sections[] = $section;
-
-        return $this;
-    }
-
-    /**
-     * 设置侧边栏
+     * 创建设置部分(选项卡)
      * 
-     * 该方法用于配置可用的侧边栏。通过将侧边栏的配置数组赋值给类的属性，
-     * 提供了对侧边栏布局和内容的自定义能力。
-     * 
-     * @param array $sidebars 一个包含侧边栏配置的数组。每个侧边栏都应该在数组中
-     *                         作为一个独立的元素，每个元素自身是一个数组，包含
-     *                         侧边栏的相关设置，如名称、位置等。
-     * 
-     * @return $this 返回当前类实例，支持链式调用。
-     */
-    function set_sidebars( $sidebars) {
-        $this->settings_sidebars = $sidebars;
-        return $this;
-    }
-
-    /**
-     * 添加一个侧边栏
+     * 通过此方法创建一个新的设置部分，包括部分的基本信息和字段定义。
+     * 使用wp_parse_args函数来处理输入参数，确保每个部分都有一个完整的结构。
+     * 创建部分后，会为该部分定义的字段调用create_field方法来生成输入字段。
      *
-     * 该函数用于向系统中添加一个新的侧边栏。侧边栏是一个用于展示内容的区域，可以包括文本、图像等各种类型的内容。
-     * 通过侧边栏，用户可以在主题的侧边位置自定义展示各种信息或功能。
-     *
-     * @param array $sidebar 侧边栏的配置数组，包含侧边栏的名称、内容、描述和按钮等信息。
-     *                      - 'name'    string 侧边栏的名称，用于标识和区别不同的侧边栏。
-     *                      - 'content' string 侧边栏的具体内容，可以是文本、HTML代码等。
-     *                      - 'desc'    string 侧边栏的描述，用于说明侧边栏的用途或功能。
-     *                      - 'buts'    array  侧边栏中包含的按钮数组，每个按钮是一个键值对，键是按钮名称，值是按钮链接。
-     * 
-     * @return $this 返回当前类实例，支持链式调用。
+     * @param array $sections 包含部分信息的数组，可以包括id、title、desc和fields。
+     * @return $this 返回实例对象，支持链式调用。
      */
-    function add_sidebar( $sidebar ) {
+    function create_section($sections){
         $defaults = array(
-            'name'    => '',
-            'content' => '',
-            'desc'    => '',
-            'buts'    => array()
+            'id'     => '',
+            'title'  => '',
+            'desc'   => '',
+            'fields' => array(),
         );
-        $args = wp_parse_args( $sidebar, $defaults );
+        $args = wp_parse_args( $sections, $defaults );
+        $fields   = $args['fields'];
+        $args['fields'] = [];
 
-        $this->settings_sidebars[] = $args;
+        $this->create_field($args['id'], $fields)->settings_sections[] = $args;
+
         return $this;
     }
+
     /**
-     * 设置设置字段
+     * 创建并添加字段到指定的选项卡
      * 
-     * 本函数用于配置可用的设置字段。这些字段通常用于构建一个配置界面，允许用户自定义一些应用或系统的设置。
+     * 此方法用于在特定的选项卡下创建并添加一个或多个字段。它首先将字段数组与选项卡ID关联起来，
+     * 然后如果字段数组不为空，它将遍历这些字段，并将每个字段按类型存储在另一个数组中，
+     * 以便于后续的快速访问和处理。
      * 
-     * @param array $fields 设置字段数组。该数组结构为多层嵌套，外层数组代表不同的设置区域（或称为节），内层数组则包含该节的所有设置字段及其详细信息。
-     * 
-     * @return $this 返回当前对象实例，支持链式调用。
+     * @param string $section_id 选项卡的唯一标识符
+     * @param array $fields 包含一个或多个字段定义的数组，每个字段定义是一个关联数组
+     * @return $this 返回实例对象，允许链式调用
      */
-    function set_fields( $fields ) {
-        $this->settings_fields = $fields;
+    function create_field($section_id, $fields ) {
+        $this->settings_fields[$section_id] = $fields;
 
         if (!empty($fields)) {
-            foreach ($fields as $section) {
-                foreach ($section as $field) {
-                    $this->enabled_fields[$field['type']] = $field;
-                }
+            foreach ($fields as $field) {
+                $this->enabled_fields[$field['type']] = $field;
             }
         }
     
@@ -401,18 +356,64 @@ class ISET {
     }
 
     /**
-     * 添加一个设置字段到指定的段落中。
+     * 创建并注册多个侧边栏。
+     * 
+     * 该函数通过遍历一个包含侧边栏名称的数组，调用 add_sidebar 方法来逐一注册这些侧边栏。
+     * 这种方法的使用允许在一次调用中注册多个侧边栏，提高了代码的效率和可读性。
+     * 
+     * @param array $sidebars 一个包含侧边栏配置的数组。每个元素自身是一个数组，包含
+     *                         侧边栏的相关设置，如名称、位置等。
+     * 
+     * @return $this 返回当前类实例，支持链式调用。
+     */
+    function create_sidebars($sidebars) {
+        foreach ($sidebars as $sidebar) {
+            $this->add_sidebar($sidebar);
+        }
+        return $this;
+    }
+
+    /**
+     * 添加一个侧边栏
+     *
+     * 该函数用于向系统中添加一个新的侧边栏。侧边栏是一个用于展示内容的区域，可以包括文本、图像等各种类型的内容。
+     *
+     * @param array $sidebar 侧边栏的配置数组，包含侧边栏的名称、内容、描述和按钮等信息。
+     *                      - 'section_id' string 侧边栏所属的选项卡ID，用于将侧边栏添加到特定的选项卡中。
+     *                      - 'name'       string 侧边栏的名称，用于标识和区别不同的侧边栏。
+     *                      - 'content'    string 侧边栏的具体内容，可以是文本、HTML代码等。
+     *                      - 'desc'       string 侧边栏的描述，用于说明侧边栏的用途或功能。
+     *                      - 'buts'       array  侧边栏中包含的按钮数组。
+     * 
+     * @return $this 返回当前类实例，支持链式调用。
+     */
+    function add_sidebar( $sidebar ) {
+        $defaults = array(
+            'section_id' => 'all', // all 显示在所有选项卡中
+            'name'       => '',
+            'content'    => '',
+            'desc'       => '',
+            'buts'       => array()
+        );
+        $args = wp_parse_args( $sidebar, $defaults );
+
+        $this->settings_sidebars[] = $args;
+        return $this;
+    }
+
+    /**
+     * 添加一个设置字段到指定的选项卡中。
      *
      * 该方法用于在配置界面中添加一个新的设置字段。它允许开发者定义一个字段，
-     * 并将其添加到特定的设置段落中。字段的详细信息可以通过参数 $field 提供，
+     * 并将其添加到特定的设置选项卡中。字段的详细信息可以通过参数 $field 提供，
      * 如果未提供全部信息，则会使用默认值。
      *
-     * @param string $section 段落的ID，字段将被添加到这个段落中。
+     * @param string $section_id 选项卡的ID，字段将被添加到这个选项卡中。
      * @param array $field 字段的配置信息。一个数组，包含 'id', 'title', 'desc', 'type' 等字段的值。
      *
      * @return $this 返回当前对象，允许链式调用。
      */
-    function add_field( $section, $field ) {
+    function add_field( $section_id, $field ) {
         $defaults = array(
             'id'  => '',
             'type'  => 'text',
@@ -421,7 +422,7 @@ class ISET {
         );
 
         $args = wp_parse_args( $field, $defaults );
-        $this->settings_fields[$section][] = $args;
+        $this->settings_fields[$section_id][] = $args;
 
         if (!empty($args)) {
             $this->enabled_fields[$args['type']] = $args;
@@ -445,7 +446,7 @@ class ISET {
             if (isset($section['desc']) && !empty($section['desc'])) {
                 $section['desc'] = '<div class="inside">' . $section['desc'] . '</div>';
                 $callback        = function () use ($section) {
-                    echo str_replace('"', '\"', $section['desc']);
+                    echo $section['desc'];
                 };
             } else if (isset($section['callback'])) {
                 $callback = $section['callback'];
@@ -698,15 +699,12 @@ class ISET {
      * 
      * @since 1.0
      */
-    function show_navigation() {
-        $html = '<div class="nav-tab-wrapper iset-nav-options">';
-        $html .= '<nav class="container">';
-
-        $count = count( $this->settings_sections );
-        // 如果只有一个选项卡，则不显示导航
-        if ( $count === 1 ) {
+    function show_navigation($no_nav) {
+        if ($no_nav) {
             return;
         }
+        $html = '<div class="nav-tab-wrapper iset-nav-options">';
+        $html .= '<nav class="container">';
 
         foreach ( $this->settings_sections as $tab ) {
             $html .= sprintf( '<a href="#tab=%1$s" class="nav-tab iset-section-nav" data-tab-id="%1$s_tab">%2$s</a>', $tab['id'], $tab['title'] );
@@ -727,11 +725,11 @@ class ISET {
      * @see serialize_forms() 如果$serialize属性为真，则调用此方法来序列化表单数据。
      * @see unserialize_forms() 如果$serialize属性为假，则调用此方法来反序列化表单数据。
      */
-    function show_forms() {
+    function show_forms($no_nav) {
         echo '<div class="metabox-holder iset-section-group">';
 
         // 根据$serialize属性的值选择合适的方法处理表单数据
-        $this->serialize ? $this->serialize_forms() : $this->unserialize_forms();
+        $this->serialize ? $this->serialize_forms($no_nav) : $this->unserialize_forms($no_nav);
 
         echo '</div>';
     }
@@ -741,12 +739,13 @@ class ISET {
      * 
      * 此函数负责根据设置部分的数组生成一个包含所以选项的表单HTML结构。
      */
-    function serialize_forms() {
+    function serialize_forms($no_nav) {
         echo '<form method="post" action="options.php">';
 
         // 遍历设置部分数组，为每个部分生成一个表单分区
         foreach ($this->settings_sections as $form) {
-            echo '<div id="' . $form['id'] . '_tab" class="iset-field-group iset-section" style="display: none;">';
+            $display = $no_nav? '' : ' style="display:none"';
+            echo '<div id="' . $form['id'] . '_tab" class="iset-field-group iset-section"' . $display . '>';
 
             // 执行在表单顶部定义的自定义动作，允许插件或主题进行扩展
             do_action('iset_form_top_' . $form['id'], $form);
@@ -757,7 +756,7 @@ class ISET {
 
             echo '</div>';
         }
-        $this->load_placeholder_field();
+        $this->load_placeholder_field($no_nav);
 
         // 生成提交按钮和表单隐藏字段，用于提交表单数据
         echo '<div>';
@@ -773,9 +772,10 @@ class ISET {
      * 
      * 该函数用于在后台界面动态生成多个设置表单，每个表单对应一个设置节。
      */
-    function unserialize_forms() {
+    function unserialize_forms($no_nav) {
         foreach ($this->settings_sections as $form) {
-            echo '<div id="' . $form['id'] . '_tab" class="iset-field-group iset-section" style="display: none;">';
+            $display = $no_nav? '' : ' style="display:none"';
+            echo '<div id="' . $form['id'] . '_tab" class="iset-field-group iset-section"' . $display . '>';
             
             echo '<form method="post" action="options.php">';
 
@@ -797,7 +797,7 @@ class ISET {
             echo '</form>';
             echo '</div>';
         }
-        $this->load_placeholder_field();
+        $this->load_placeholder_field($no_nav);
     }
 
     /**
@@ -805,7 +805,10 @@ class ISET {
      * 
      * @since 1.0.0
      */
-    function load_placeholder_field() {
+    function load_placeholder_field($no_nav) {
+        if ($no_nav) {
+            return;
+        }
         echo '<div class="iset-placeholder-field">';
         echo '<span class="placeholder-h2"></span>';
         echo '<table class="form-table">';
@@ -846,7 +849,7 @@ class ISET {
         // 检查是否启用了侧边栏并且是否有设置的侧边栏存在
         if ($this->options['sidebar'] && count($this->settings_sidebars) > 0) {
             // 开始输出侧边栏容器
-            echo '<div class="right-column">';
+            echo '<div class="right-column iset-sidebar-group">';
             // 遍历所有设置的侧边栏，并为每个侧边栏调用show_sidebar_card函数
             foreach($this->settings_sidebars as $sidebar){
                 $this->show_sidebar_card($sidebar);
@@ -860,27 +863,38 @@ class ISET {
      * 显示侧边栏卡片
      * 
      * 该函数用于在网页侧边栏中渲染一个卡片式布局，包含标题、内容和底部按钮区域。
-     * 卡片的样式通过类名 ".card" 进行定义，各个部分使用相应的子元素和类名进行样式化。
      * 
      * @param array $sidebar 卡片的内容数组，包含以下键值：
      *   - name: 卡片的标题
      *   - content: 卡片的内容
+     *   - desc: 卡片的描述
      *   - buts: 卡片底部的按钮数组，每个按钮作为一个字符串元素包含在数组中
      */
     function show_sidebar_card($sidebar) {
-        echo '<div class="card">';
+        $display = $sidebar['section_id'] == 'all' ? '' : ' style="display:none"';
+        echo '<div class="card iset-sidebar iset-sidebar-' . $sidebar['section_id'] . '"' . $display . '>';
+        
+        echo '<div class="card-header">';
         echo '<h3>' . $sidebar['name'] . '</h3>';
-
-        // 显示卡片内容
-        echo '<div class="card-body">' . $sidebar['content'] . '</div>';
-
-        echo '<div class="card-footer">';
-        // 遍历并显示卡片底部的所有按钮
-        foreach ($sidebar['buts'] as $but) {
-            echo $but;
+        if (!empty($sidebar['desc'])) {
+            echo '<div class="card-desc">' . $sidebar['desc'] . '</div>';
         }
         echo '</div>';
 
+        // 显示卡片内容
+        echo '<div class="card-body">';
+        echo $sidebar['content'];
+        echo '</div>';
+        
+        if (!empty($sidebar['buts'])) {
+            echo '<div class="card-footer">';
+            // 遍历并显示卡片底部的所有按钮
+            foreach ($sidebar['buts'] as $but) {
+                echo '<a class="' . $but['class'] . '" href="' . $but['link'] . '" ' . $but['attr'] . '>' . $but['title'] . '</a>';
+            }
+            echo '</div>';
+        }
+        
         echo '</div>';
     }
 
@@ -920,15 +934,17 @@ class ISET {
         if (empty($this->options['menu_parent'])) {
             settings_errors('general');
         }
+
+        $no_nav = count($this->settings_sections) === 1 ? true : false;
         
         echo '<div class="wrap iset-dashboard ' . $this->options['class'] . '">';
         $this->show_header();
-        $this->show_navigation();
+        $this->show_navigation($no_nav);
         echo '<div class="iset-body">';
         echo '<div class="container-flex">';
         echo '<div class="left-column">';
 
-        $this->show_forms();
+        $this->show_forms($no_nav);
 
         $this->show_footer();
 

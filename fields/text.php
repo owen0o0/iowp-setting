@@ -5,7 +5,7 @@
  * @Date: 2024-07-25 13:49:55
  * @LastEditors: iowen
  * @LastEditTime: 2024-07-25 18:32:19
- * @FilePath: /io-setting/fields/text.php
+ * @FilePath: /iowp-setting/fields/text.php
  * @Description: 
  */
 if (!defined('ABSPATH')) { die; }

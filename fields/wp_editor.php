@@ -5,7 +5,7 @@
  * @Date: 2024-07-25 13:49:55
  * @LastEditors: iowen
  * @LastEditTime: 2024-07-25 18:33:13
- * @FilePath: /io-setting/fields/wp_editor.php
+ * @FilePath: /iowp-setting/fields/wp_editor.php
  * @Description: 
  */
 if (!defined('ABSPATH')) { die; }

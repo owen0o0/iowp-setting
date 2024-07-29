@@ -3,8 +3,8 @@
  * @Author URI: https://www.iowen.cn/
  * @Date: 2024-07-21 20:33:05
  * @LastEditors: iowen
- * @LastEditTime: 2024-07-27 17:56:51
- * @FilePath: /io-setting/assets/js/main.js
+ * @LastEditTime: 2024-07-29 14:02:43
+ * @FilePath: /iowp-setting/assets/js/main.js
  * @Description: 
  */
 'use strict';
@@ -460,6 +460,9 @@
           $links = $nav.find('a'),
           $menus = $('#toplevel_page_' + iset_vars.menu_slug).find('li'),
           $last = $('.iset-placeholder-field'),
+          $sidebars = $('.iset-sidebar:not(.iset-sidebar-all)'),
+          $sidebar_group = $('.iset-sidebar-group'),
+          $sidebar_global = null,
           $is_into = false;
       
       var changeTab = function (slug) {
@@ -470,16 +473,18 @@
         }
 
         if ($link.length) {
+          // 处理 nav 高亮
           $links.removeClass('nav-tab-active');
           $link.addClass('nav-tab-active');
 
+          // 处理 wp 菜单高亮
           $menus.removeClass('current');
           $('[href="admin.php?page=' + iset_vars.menu_slug + '#tab=' + slug + '"]').parent().addClass('current');
 
+          // 处理选项卡显示
           if ($last) {
             $last.hide();
           }
-
           var $tab = $('#' + slug + '_tab');
           if (!$tab.data('depend')) {
             $tab.iset_dependency();
@@ -491,10 +496,30 @@
             $tab.fadeIn().data('depend', true);
           }
           $last = $tab;
+
+          // 处理侧边栏显示
+          if ($sidebar_group.length) {
+            $sidebars.slideUp("fast");
+            var $current_sidebars = $('.iset-sidebar-' + slug);
+            if ($current_sidebars.length>0) {
+              $current_sidebars.slideDown("fast");
+              $sidebar_global.removeClass('iset-hide');
+            } else {
+              $sidebar_global.addClass('iset-hide');
+            }
+            $('.iset-sidebar-' + slug).slideDown("fast");
+          }
         }
       }
 
       var intoTab = function () {
+        // 初始化侧边栏
+        $('.iset-sidebar-all').length > 0 && $sidebar_group.addClass('iset-sidebar-global');
+        $sidebar_global = $('.iset-sidebar-group:not(.iset-sidebar-global)');
+        // 将 $sidebars 置于顶部
+        $sidebars.prependTo('.iset-sidebar-group');
+
+        // 获取活动选项卡
         let active_tab = '';
     
         if (window.location.hash) {

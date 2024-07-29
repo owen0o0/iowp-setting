@@ -83,20 +83,30 @@ nav .iset-section-nav {
   box-shadow: 0 0.375rem 1.5rem 0 rgba(141, 153, 165, 0.13);
 }
 
+/* card sidebar */
 .card h3 {
-  margin-top: 0;
   font-size: 18px;
   font-weight: 400;
+  margin: 0;
 }
-
+.card-desc{
+  color: #595c54;
+  background-color: #f8f9f6;
+  border-radius: 8px;
+  padding: 10px;
+  font-size: 12px;
+  line-height: normal;
+}
 .card a,
 .left-column a {
   text-decoration: none;
 }
-
-.card-body,
+.card-header,
 .card-footer {
-  margin: 10px 0;
+  margin:0;
+}
+.card-body{
+  margin: 1em 0;
 }
 
 .card-footer a.button.button-primary {
@@ -716,7 +726,10 @@ h4 {
     padding-left: 20px;
     width: 30%;
   }
-  .container-flex:not(:has(.right-column)) .left-column {
+  .iset-hide{
+    display: none;
+  }
+  .container-flex:not(:has(.right-column:not(.iset-hide))) .left-column {
     width: 100%;
   }
 
