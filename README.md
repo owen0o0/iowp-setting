@@ -22,4 +22,4 @@ composer require owen0o0/iowp-setting
 
 ## 许可
 
-GPLv3 or later
+LGPLv3
