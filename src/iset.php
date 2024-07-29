@@ -4,17 +4,17 @@
  * @Author URI: https://www.iowen.cn/
  * @Date: 2024-07-21 20:57:00
  * @LastEditors: iowen
- * @LastEditTime: 2024-07-30 00:47:08
+ * @LastEditTime: 2024-07-30 01:27:03
  * @FilePath: /iowp-setting/src/iset.php
  * @Description: 
  */
 namespace IO\Setting;
 if (!defined('ABSPATH')) { die; }
 
-if ( ! class_exists( 'ISET' ) ) :
+if (!class_exists('ISET')) :
 
 class ISET {
-    protected $version  = '1.0.4';
+    protected $version  = '1.0.5';
     /**
      * 设置选项卡数组
      *

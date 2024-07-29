@@ -4,7 +4,7 @@
  * Plugin Name: IO Setting API
  * Plugin URI:  https://www.iotheme.cn/
  * Description: IO Setting API 使用示例插件
- * Version: 1.0.4
+ * Version: 1.0.5
  * Author: iowen
  * Author URI: https://www.iotheme.cn/
  * License: GPLv3 or later
@@ -16,7 +16,7 @@
 defined( 'ABSPATH' ) or exit;
 
 use IO\Setting\ISET;
-require_once plugin_dir_path( __FILE__ ) .'src/iset.php';
+require_once plugin_dir_path( __FILE__ ) .'src/ISET.php';
 
 $ISET = new ISET();
 
