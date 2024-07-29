@@ -4,10 +4,11 @@
  * @Author URI: https://www.iowen.cn/
  * @Date: 2024-07-25 13:49:55
  * @LastEditors: iowen
- * @LastEditTime: 2024-07-26 23:49:10
- * @FilePath: /iowp-setting/fields/checkbox.php
+ * @LastEditTime: 2024-07-29 22:21:44
+ * @FilePath: /iowp-setting/src/fields/checkbox.php
  * @Description: 
  */
+namespace IO\Setting;
 if (!defined('ABSPATH')) { die; }
 
 class ISET_Field_checkbox extends ISET_Fields

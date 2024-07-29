@@ -1,8 +1,22 @@
 <?php
 
+/**
+ * Plugin Name: IO Setting API
+ * Plugin URI:  https://www.iotheme.cn/
+ * Description: IO Setting API 使用示例插件
+ * Version: 1.0.3
+ * Author: iowen
+ * Author URI: https://www.iotheme.cn/
+ * License: GPLv3 or later
+ * License URI: http://www.gnu.org/licenses/gpl-3.0.html
+ * Text Domain: iset_plugin
+ * Domain Path: /languages/
+ */
 
 defined( 'ABSPATH' ) or exit;
 
+use IO\Setting\ISET;
+require_once plugin_dir_path( __FILE__ ) .'src/iset.php';
 
 $ISET = new ISET();
 
@@ -15,7 +29,7 @@ $options = array(
 	//'menu_parent'   => 'options-general.php',
 	'serialize'     => true, //unserialize
 	'sidebar'       => true,
-	'plugin_action' => 'iowp-setting/iowp-setting.php',
+	'plugin_action' => 'iowp-setting/iset-demo.php',
 	'class'         => 'io-option',
 	'footer_html'   => '<p><strong>Footer:</strong>...</p>',
 );

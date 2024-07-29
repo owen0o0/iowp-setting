@@ -4,17 +4,17 @@
  * @Author URI: https://www.iowen.cn/
  * @Date: 2024-07-20 11:31:42
  * @LastEditors: iowen
- * @LastEditTime: 2024-07-29 15:47:57
- * @FilePath: /iowp-setting/classes/setting.class.php
+ * @LastEditTime: 2024-07-29 22:59:44
+ * @FilePath: /iowp-setting/src/classes/setting.class.php
  * @Description: 
  */
-
+namespace IO\Setting;
 if (!defined('ABSPATH')) { die; }
 
 if ( ! class_exists( 'ISET' ) ) :
 
 class ISET {
-    protected $version  = ISET_VERSION;
+    protected $version  = '1.0.3';
     /**
      * 设置选项卡数组
      *
@@ -157,7 +157,7 @@ class ISET {
 
         if (!empty($fields)) {
             foreach ($fields as $field) {
-                if (!class_exists('ISET_Field_' . $field) && class_exists('ISET_Fields')) {
+                if (!class_exists('IO\Setting\ISET_Field_' . $field) && class_exists('IO\Setting\ISET_Fields')) {
                     require_once ($this->dir . '/fields/' . $field . '.php');
                 }
             }
@@ -221,7 +221,7 @@ class ISET {
         if (!empty($this->enabled_fields)) {
             foreach ($this->enabled_fields as $field) {
                 if (!empty($field['type'])) {
-                    $classname = 'ISET_Field_' . $field['type'];
+                    $classname = 'IO\Setting\ISET_Field_' . $field['type'];
                     if (class_exists($classname) && method_exists($classname, 'enqueue')) {
                         $instance = new $classname($field);
                         if (method_exists($classname, 'enqueue')) {
@@ -592,8 +592,8 @@ class ISET {
     public function show_field($args) {
         // 根据参数ID、部分和默认值获取字段的当前值
         $value     = $this->get_option($args['id'], $args['section'], $args['std']);
-        $classname = 'ISET_Field_' . $args['type']; // 构建字段类的名称
-        if (class_exists($classname)) {
+        $classname = 'IO\Setting\ISET_Field_' . $args['type']; // 构建字段类的名称
+        if (class_exists( $classname)) {
             // 创建字段类实例，并传入参数和字段值
             $instance = new $classname($args, $value);
             $instance->render();

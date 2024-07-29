@@ -4,10 +4,11 @@
  * @Author URI: https://www.iowen.cn/
  * @Date: 2024-07-25 13:49:55
  * @LastEditors: iowen
- * @LastEditTime: 2024-07-25 18:28:33
- * @FilePath: /iowp-setting/fields/color.php
+ * @LastEditTime: 2024-07-29 22:21:55
+ * @FilePath: /iowp-setting/src/fields/color.php
  * @Description: 
  */
+namespace IO\Setting;
 if (!defined('ABSPATH')) { die; }
 
 class ISET_Field_color extends ISET_Fields

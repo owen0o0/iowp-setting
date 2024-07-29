@@ -4,10 +4,11 @@
  * @Author URI: https://www.iowen.cn/
  * @Date: 2024-07-25 16:15:03
  * @LastEditors: iowen
- * @LastEditTime: 2024-07-29 15:23:55
- * @FilePath: /iowp-setting/functions/actions.php
+ * @LastEditTime: 2024-07-29 22:22:34
+ * @FilePath: /iowp-setting/src/functions/actions.php
  * @Description: 
  */
+namespace IO\Setting;
 if ( ! defined( 'ABSPATH' ) ) { die; }
 
 

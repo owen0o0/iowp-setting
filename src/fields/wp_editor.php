@@ -4,10 +4,11 @@
  * @Author URI: https://www.iowen.cn/
  * @Date: 2024-07-25 13:49:55
  * @LastEditors: iowen
- * @LastEditTime: 2024-07-25 18:33:13
- * @FilePath: /iowp-setting/fields/wp_editor.php
+ * @LastEditTime: 2024-07-29 22:50:59
+ * @FilePath: /iowp-setting/src/fields/wp_editor.php
  * @Description: 
  */
+namespace IO\Setting;
 if (!defined('ABSPATH')) { die; }
 
 class ISET_Field_wp_editor extends ISET_Fields
@@ -87,9 +88,9 @@ class ISET_Field_wp_editor extends ISET_Fields
                 ),
             ));
 
-            $setup = _WP_Editors::parse_settings('iset_wp_editor', $defaults);
+            $setup = \_WP_Editors::parse_settings('iset_wp_editor', $defaults);
 
-            _WP_Editors::editor_settings('iset_wp_editor', $setup);
+            \_WP_Editors::editor_settings('iset_wp_editor', $setup);
 
         }
     }

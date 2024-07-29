@@ -4,10 +4,11 @@
  * @Author URI: https://www.iowen.cn/
  * @Date: 2024-07-25 13:49:55
  * @LastEditors: iowen
- * @LastEditTime: 2024-07-25 18:45:11
- * @FilePath: /iowp-setting/fields/select.php
+ * @LastEditTime: 2024-07-29 22:22:12
+ * @FilePath: /iowp-setting/src/fields/select.php
  * @Description: 
  */
+namespace IO\Setting;
 if (!defined('ABSPATH')) { die; }
 
 class ISET_Field_select extends ISET_Fields

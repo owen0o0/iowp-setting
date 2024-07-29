@@ -4,10 +4,11 @@
  * @Author URI: https://www.iowen.cn/
  * @Date: 2024-07-25 13:51:46
  * @LastEditors: iowen
- * @LastEditTime: 2024-07-25 20:18:01
- * @FilePath: /iowp-setting/classes/fields.class.php
+ * @LastEditTime: 2024-07-29 22:48:39
+ * @FilePath: /iowp-setting/src/classes/fields.class.php
  * @Description: 
  */
+namespace IO\Setting;
 if (!defined('ABSPATH')) { die; }
 
 abstract class ISET_Fields
@@ -107,7 +108,7 @@ abstract class ISET_Fields
                 // 根据是否有搜索术语来构建不同的查询参数。
                 if (!empty($term)) {
 
-                    $query = new WP_Query(wp_parse_args($query_args, array(
+                    $query = new \WP_Query(wp_parse_args($query_args, array(
                         's'              => $term,
                         'post_type'      => $option,
                         'post_status'    => 'publish',
@@ -116,7 +117,7 @@ abstract class ISET_Fields
 
                 } else {
 
-                    $query = new WP_Query(wp_parse_args($query_args, array(
+                    $query = new \WP_Query(wp_parse_args($query_args, array(
                         'post_type'   => $option,
                         'post_status' => 'publish',
                     )));
@@ -140,7 +141,7 @@ abstract class ISET_Fields
 
                 if (!empty($term)) {
 
-                    $query = new WP_Term_Query(wp_parse_args($query_args, array(
+                    $query = new \WP_Term_Query(wp_parse_args($query_args, array(
                         'search'     => $term,
                         'taxonomy'   => $option,
                         'hide_empty' => false,
@@ -149,7 +150,7 @@ abstract class ISET_Fields
 
                 } else {
 
-                    $query = new WP_Term_Query(wp_parse_args($query_args, array(
+                    $query = new \WP_Term_Query(wp_parse_args($query_args, array(
                         'taxonomy'   => $option,
                         'hide_empty' => false,
                     )));
@@ -169,7 +170,7 @@ abstract class ISET_Fields
 
                 if (!empty($term)) {
 
-                    $query = new WP_User_Query(
+                    $query = new \WP_User_Query(
                         array(
                             'search'  => '*' . $term . '*',
                             'number'  => 25,
@@ -180,7 +181,7 @@ abstract class ISET_Fields
 
                 } else {
 
-                    $query = new WP_User_Query(array('fields' => array('display_name', 'ID')));
+                    $query = new \WP_User_Query(array('fields' => array('display_name', 'ID')));
 
                 }
 

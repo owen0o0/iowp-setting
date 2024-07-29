@@ -4,10 +4,11 @@
  * @Author URI: https://www.iowen.cn/
  * @Date: 2024-07-25 13:49:55
  * @LastEditors: iowen
- * @LastEditTime: 2024-07-25 18:30:28
- * @FilePath: /iowp-setting/fields/number.php
+ * @LastEditTime: 2024-07-29 22:22:07
+ * @FilePath: /iowp-setting/src/fields/number.php
  * @Description: 
  */
+namespace IO\Setting;
 if (!defined('ABSPATH')) { die; }
 
 class ISET_Field_number extends ISET_Fields

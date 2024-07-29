@@ -1,10 +1,10 @@
 # macOS
 .DS_Store
-
 # Windows
 Thumbs.db
 desktop.ini
 
+composer.lock
 .vscode/
 
 /vendor/

@@ -4,10 +4,11 @@
  * @Author URI: https://www.iowen.cn/
  * @Date: 2024-07-25 13:49:55
  * @LastEditors: iowen
- * @LastEditTime: 2024-07-25 18:41:30
- * @FilePath: /iowp-setting/fields/radio.php
+ * @LastEditTime: 2024-07-29 22:22:09
+ * @FilePath: /iowp-setting/src/fields/radio.php
  * @Description: 
  */
+namespace IO\Setting;
 if (!defined('ABSPATH')) { die; }
 
 class ISET_Field_radio extends ISET_Fields

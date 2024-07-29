@@ -4,10 +4,11 @@
  * @Author URI: https://www.iowen.cn/
  * @Date: 2024-07-25 13:49:55
  * @LastEditors: iowen
- * @LastEditTime: 2024-07-25 17:04:05
- * @FilePath: /iowp-setting/fields/switcher.php
+ * @LastEditTime: 2024-07-29 22:22:14
+ * @FilePath: /iowp-setting/src/fields/switcher.php
  * @Description: 
  */
+namespace IO\Setting;
 if (!defined('ABSPATH')) { die; }
 
 class ISET_Field_switcher extends ISET_Fields

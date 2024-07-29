@@ -1,0 +1,24 @@
+{
+  "name": "owen0o0/iowp-setting",
+  "description": "WordPress Setting API for developers",
+  "keywords": [
+    "wordpress"
+  ],
+  "homepage": "https://github.com/owen0o0/iowp-setting",
+  "type": "library",
+  "require": {
+    "php": ">=5.6"
+  },
+  "autoload": {
+    "psr-4": {
+      "IO\\Setting\\": "src/"
+    }
+  },
+  "authors": [
+    {
+      "name": "owen0o0",
+      "email": "owen0o0ll@gmail.com"
+    }
+  ],
+  "license": "GPL-3.0-or-later"
+}
