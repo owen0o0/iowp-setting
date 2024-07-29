@@ -4,7 +4,7 @@
  * Plugin Name: IO Setting API
  * Plugin URI:  https://www.iotheme.cn/
  * Description: IO Setting API 使用示例插件
- * Version: 1.0.5
+ * Version: 1.1.0
  * Author: iowen
  * Author URI: https://www.iotheme.cn/
  * License: GPLv3 or later

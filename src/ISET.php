@@ -14,7 +14,7 @@ if (!defined('ABSPATH')) { die; }
 if (!class_exists('ISET')) :
 
 class ISET {
-    protected $version  = '1.0.5';
+    protected $version  = '1.1.0';
     /**
      * 设置选项卡数组
      *

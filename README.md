@@ -10,7 +10,7 @@ iowp-setting 是一个 WordPress Settings API 的集成库，它简化了创建�
 composer require owen0o0/iowp-setting
 ```
 
-也可以直接下载源码，将 iowp-setting 文件夹复制到你的项目中，通过 `include_once 'src/iset.php';` 引入。
+也可以直接下载源码，将 iowp-setting 文件夹复制到你的项目中，通过 `include_once 'src/ISET.php';` 引入。
 
 ## 使用方法
 
