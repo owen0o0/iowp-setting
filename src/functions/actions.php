@@ -8,7 +8,7 @@
  * @FilePath: /iowp-setting/src/functions/actions.php
  * @Description: 
  */
-namespace IO\Setting;
+namespace IO\WP\Setting;
 if ( ! defined( 'ABSPATH' ) ) { die; }
 
 

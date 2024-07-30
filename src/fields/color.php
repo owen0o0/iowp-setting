@@ -8,7 +8,7 @@
  * @FilePath: /iowp-setting/src/fields/color.php
  * @Description: 
  */
-namespace IO\Setting;
+namespace IO\WP\Setting;
 if (!defined('ABSPATH')) { die; }
 
 class ISET_Field_color extends ISET_Fields

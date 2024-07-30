@@ -8,7 +8,7 @@
  * @FilePath: /iowp-setting/src/fields/file.php
  * @Description: 
  */
-namespace IO\Setting;
+namespace IO\WP\Setting;
 if (!defined('ABSPATH')) { die; }
 
 class ISET_Field_file extends ISET_Fields

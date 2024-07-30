@@ -8,7 +8,7 @@
  * @FilePath: /iowp-setting/src/fields/callback.php
  * @Description: 
  */
-namespace IO\Setting;
+namespace IO\WP\Setting;
 if (!defined('ABSPATH')) { die; }
 
 class ISET_Field_callback extends ISET_Fields

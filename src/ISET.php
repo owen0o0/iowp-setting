@@ -4,11 +4,11 @@
  * @Author URI: https://www.iowen.cn/
  * @Date: 2024-07-21 20:57:00
  * @LastEditors: iowen
- * @LastEditTime: 2024-07-30 01:27:03
- * @FilePath: /iowp-setting/src/iset.php
+ * @LastEditTime: 2024-07-30 09:38:44
+ * @FilePath: /iowp-setting/src/ISET.php
  * @Description: 
  */
-namespace IO\Setting;
+namespace IO\WP\Setting;
 if (!defined('ABSPATH')) { die; }
 
 if (!class_exists('ISET')) :
@@ -157,7 +157,7 @@ class ISET {
 
         if (!empty($fields)) {
             foreach ($fields as $field) {
-                if (!class_exists('IO\Setting\ISET_Field_' . $field) && class_exists('IO\Setting\ISET_Fields')) {
+                if (!class_exists('IO\WP\Setting\ISET_Field_' . $field) && class_exists('IO\WP\Setting\ISET_Fields')) {
                     require_once ($this->dir . '/fields/' . $field . '.php');
                 }
             }
@@ -221,7 +221,7 @@ class ISET {
         if (!empty($this->enabled_fields)) {
             foreach ($this->enabled_fields as $field) {
                 if (!empty($field['type'])) {
-                    $classname = 'IO\Setting\ISET_Field_' . $field['type'];
+                    $classname = 'IO\WP\Setting\ISET_Field_' . $field['type'];
                     if (class_exists($classname) && method_exists($classname, 'enqueue')) {
                         $instance = new $classname($field);
                         if (method_exists($classname, 'enqueue')) {
@@ -592,7 +592,7 @@ class ISET {
     public function show_field($args) {
         // 根据参数ID、部分和默认值获取字段的当前值
         $value     = $this->get_option($args['id'], $args['section'], $args['std']);
-        $classname = 'IO\Setting\ISET_Field_' . $args['type']; // 构建字段类的名称
+        $classname = 'IO\WP\Setting\ISET_Field_' . $args['type']; // 构建字段类的名称
         if (class_exists( $classname)) {
             // 创建字段类实例，并传入参数和字段值
             $instance = new $classname($args, $value);

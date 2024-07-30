@@ -8,7 +8,7 @@
  * @FilePath: /iowp-setting/src/classes/fields.class.php
  * @Description: 
  */
-namespace IO\Setting;
+namespace IO\WP\Setting;
 if (!defined('ABSPATH')) { die; }
 
 abstract class ISET_Fields

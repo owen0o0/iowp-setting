@@ -11,7 +11,7 @@
   },
   "autoload": {
     "psr-4": {
-      "IO\\Setting\\": "src/"
+      "IO\\WP\\Setting\\": "src/"
     }
   },
   "authors": [

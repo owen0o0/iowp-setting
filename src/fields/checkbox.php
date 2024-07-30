@@ -8,7 +8,7 @@
  * @FilePath: /iowp-setting/src/fields/checkbox.php
  * @Description: 
  */
-namespace IO\Setting;
+namespace IO\WP\Setting;
 if (!defined('ABSPATH')) { die; }
 
 class ISET_Field_checkbox extends ISET_Fields
